@@ -1,0 +1,92 @@
+<html>
+
+<head>
+
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 4em;
+        }
+
+        .center {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        var ConvertBase = function (num) {
+            return {
+                from: function (baseFrom) {
+                    return {
+                        to: function (baseTo) {
+                            return parseInt(num, baseFrom).toString(baseTo);
+                        }
+                    };
+                }
+            };
+        };
+
+        // hexadecimal to binary
+        ConvertBase.hex2bin = function (num) {
+            return ConvertBase(num).from(16).to(2);
+        };
+
+        const maxNumber = 255;
+        function onDocumentLoad() {
+            setNextBinaryNumber()
+
+            var input = document.getElementById("decimalNumber");
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keyup", function (event) {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    checkAnswer();
+                }
+            });
+
+        }
+
+        function checkAnswer() {
+            var enteredNumber = document.getElementById("decimalNumber").value;
+            console.log(enteredNumber);
+            console.log(currentDeciamlNumber);
+            if (parseInt(enteredNumber) === parseInt(currentDeciamlNumber)) {
+                setNextBinaryNumber();
+            } else {
+                document.getElementById("decimalNumber").value = "";
+                document.getElementById("error").textContent = "No";
+            }
+        }
+
+        function setNextBinaryNumber() {
+            currentDeciamlNumber = Math.floor((Math.random() * 255))
+            document.getElementById("binaryNumber").textContent
+                = ConvertBase.hex2bin(currentDeciamlNumber.toString(16));
+
+            document.getElementById("error").textContent = "";
+            document.getElementById("decimalNumber").value = "";
+            document.getElementById("decimalNumber").focus();
+        }
+        this.ConvertBase = ConvertBase;
+
+    </script>
+
+
+</head>
+
+<body onload="onDocumentLoad()">
+    <div class="center">
+        
+        <div id="binaryNumber"></div>
+        <input id="decimalNumber" type="text" style="font-size: .5em;" />
+        <div id="error" style="color: red"></div>
+    </div>
+</body>
+
+
+
+</html>
